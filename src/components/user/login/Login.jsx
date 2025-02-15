@@ -29,9 +29,11 @@ function Login() {
                     <img src={loginImg} alt="reading" className='w-[360px] md:h-[200px]' />
                 </div>
             </div>
+            <div className='ml-28 mt-3 md:ml-96'>
             <Button variant="text" onClick={handleClickOpen}>
                 Click to register here
             </Button>
+            </div>
             {open && <Register open={open} onClose={handleClose }/>}
 
         </>

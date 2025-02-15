@@ -7,9 +7,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 
-function Register({open,onClose}) {
+function Register({ open, onClose }) {
     return (
         <>
             <Dialog
@@ -19,19 +20,24 @@ function Register({open,onClose}) {
                 onClose={onClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+                <DialogTitle className='text-center'>{"Register"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
-                    </DialogContentText>
+                    <div className='flex flex-col p-5 w-100%'>
+                        <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="User Name" variant="standard" />
+                        <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="Name" variant="standard" />
+                        <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="Email" variant="standard" />
+                        <TextField className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />
+                        <TextField className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Confirm Password" variant="standard" />
+                        {/* <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="Mobile no" variant="standard" /> */}
+                        {/* <Button variant="contained">Register</Button> */}
+                    </div>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Disagree</Button>
-                    <Button onClick={onClose}>Agree</Button>
+                <DialogActions className='mr-7 mb-2'>
+                    <Button onClick={onClose}>Cancel</Button>
+                    <Button variant="contained" onClick={onClose}>Register</Button>
                 </DialogActions>
             </Dialog>
-            
+
         </>
     )
 }
