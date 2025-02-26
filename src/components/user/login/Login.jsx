@@ -3,10 +3,13 @@ import loginImg from '../../../assets/login2.png'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Register from './Register';
+import { useParams } from 'react-router-dom';
 
 
 
 function Login() {
+    const { admin } = useParams()
+
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
         setOpen(true);
@@ -18,7 +21,7 @@ function Login() {
         <>
             <div className='md:flex items-center md:mt-10'>
                 <div className=' md:ml-75'>
-                    <p className='text-2xl text-center'>Login Here</p>
+                    <p className='text-2xl text-center'>Login Here{admin&&`(Admin)`}</p>
                     <div className='flex flex-col p-5 w-100%'>
                         <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="User Name" variant="standard" />
                         <TextField className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />
@@ -30,11 +33,11 @@ function Login() {
                 </div>
             </div>
             <div className='ml-28 mt-3 md:ml-96'>
-            <Button variant="text" onClick={handleClickOpen}>
-                Click to register here
-            </Button>
+                <Button variant="text" onClick={handleClickOpen}>
+                    Click to register here
+                </Button>
             </div>
-            {open && <Register open={open} onClose={handleClose }/>}
+            {open && <Register open={open} onClose={handleClose} />}
 
         </>
     )

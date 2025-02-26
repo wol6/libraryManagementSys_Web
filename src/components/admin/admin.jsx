@@ -1,11 +1,13 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import Login from '../user/login/Login';
+import { NavLink } from 'react-router-dom';
 function Admin() {
-  let name = 'Alwyn'
   return (
-    <div >
-      <span className='text-3xl text-red-500'>Hello World</span>
-    </div>
+    <>
+      <div>
+    <NavLink to='/login/admin'>Admin Login</NavLink>
+      </div>
+    </>
   )
 }
 
