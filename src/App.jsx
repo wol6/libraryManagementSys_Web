@@ -9,14 +9,16 @@ function App() {
 
   return (
     <>
-      {/* <Routes>
+<div>
+<Navigation/>
+      <Routes>
         <Route path='/admin' element={<Admin />}/>
         <Route path='/login/:admin' element={<Login/>}/>
 
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
-      </Routes> */}
-      <Navigation/>
+      </Routes>
+</div>
     </>
   )
 }

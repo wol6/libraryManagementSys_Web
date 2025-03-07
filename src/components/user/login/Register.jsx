@@ -20,7 +20,7 @@ function Register({ open, onClose }) {
                 onClose={onClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle className='text-center'>{"Register"}</DialogTitle>
+                <DialogTitle className='text-center text-cyan-800'>{"Register"}</DialogTitle>
                 <DialogContent>
                     <div className='flex flex-col p-5 w-100%'>
                         <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="User Name" variant="standard" />
@@ -33,8 +33,8 @@ function Register({ open, onClose }) {
                     </div>
                 </DialogContent>
                 <DialogActions className='mr-7 mb-2'>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button variant="contained" onClick={onClose}>Register</Button>
+                    <Button style={{color:'#155e75'}} onClick={onClose}>Cancel</Button>
+                    <Button style={{backgroundColor:'#155e75'}} variant="contained" onClick={onClose}>Register</Button>
                 </DialogActions>
             </Dialog>
 

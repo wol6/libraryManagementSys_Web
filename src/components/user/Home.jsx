@@ -1,13 +1,10 @@
 import React from 'react'
-import Footer from '../layouts/Footer'
-import Navigation from '../layouts/Navigation'
 
 function Home() {
   return (
     <div>
-        <Navigation/>
-        <h1>Home</h1>
-        <Footer/>
+        <h1 className='text-center'>Books View</h1>
+
     </div>
   )
 }
