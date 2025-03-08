@@ -1,11 +1,23 @@
 import React from 'react'
+import book from '../../assets/book_test.jpg'
 
 function Home() {
   return (
-    <div>
-        <h1 className='text-center'>Books View</h1>
+  <>
+  <h1 className='text-center text-2xl'>Library</h1>
+    <div className='flex'>
+        <div className='border-2 w-45 ml-12'>
+          <img src={book} alt="" />
+          <button className='ml-12'>Borrow</button>
+        </div>
+
+        <div className='border-2 w-45 ml-12'>
+          <img src={book} alt="" />
+          <button className='ml-12'>Borrow</button>
+        </div>
 
     </div>
+  </>
   )
 }
 
