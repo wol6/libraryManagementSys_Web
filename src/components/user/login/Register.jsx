@@ -52,9 +52,9 @@ function Register({ open, onClose }) {
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Name" variant="standard" />
                         <TextField onChange={handleChange} name='emailId' value={userObj.emailId}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Email" variant="standard" />
-                        <TextField onChange={handleChange} name='password' value={userObj.password}
+                        <TextField type='password' onChange={handleChange} name='password' value={userObj.password}
                             className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />
-                        <TextField onChange={handleChange} name='confirmPassword' value={userObj.confirmPassword}
+                        <TextField type='password' onChange={handleChange} name='confirmPassword' value={userObj.confirmPassword}
                             className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Confirm Password" variant="standard" />
                         {/* <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="Mobile no" variant="standard" /> */}
                         {/* <Button variant="contained">Register</Button> */}

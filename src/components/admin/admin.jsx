@@ -8,10 +8,10 @@ function Admin() {
   const [open, setOpen] = useState(false);
   const [library, setLibrary] = useState(false);
   const handleClickOpen = (validate) => {
-    validate ? setLibrary(true) : setOpen(true);
+    validate==1 ? setLibrary(true) : setOpen(true);
   };
   const handleClose = (validate) => {
-    validate ? setLibrary(false) : setOpen(false);
+    validate==1 ? setLibrary(false) : setOpen(false);
   };
   return (
     <>
@@ -20,7 +20,7 @@ function Admin() {
         <Button variant="text" onClick={handleClickOpen}>
           Add Book
         </Button>
-        <Button variant="text" onClick={() => handleClickOpen(true)}>
+        <Button variant="text" onClick={() => handleClickOpen(1)}>
           Library Adminstration
         </Button>
       </div>
