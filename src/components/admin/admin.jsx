@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Button } from '@mui/material';
 import AddBook from './Book/AddBook';
 import LibraryTransaction from './Book/LibraryTransation';
+import Dashboard from './Dashboard/Dashboard';
 function Admin() {
   const [open, setOpen] = useState(false);
   const [library, setLibrary] = useState(false);
@@ -15,7 +16,7 @@ function Admin() {
   };
   return (
     <>
-      <div>
+      {/* <div>
         <NavLink to='/login/admin'>Admin Login</NavLink>
         <Button variant="text" onClick={handleClickOpen}>
           Add Book
@@ -25,7 +26,8 @@ function Admin() {
         </Button>
       </div>
       {open && <AddBook open={open} onClose={handleClose} />}
-      {library && <LibraryTransaction open={library} onClose={() => handleClose(true)} />}
+      {library && <LibraryTransaction open={library} onClose={() => handleClose(true)} />} */}
+        <Dashboard/>
     </>
   )
 }

@@ -10,7 +10,7 @@ function App() {
   return (
     <>
 <div>
-<Navigation/>
+{/* <Navigation/> */}
       <Routes>
         <Route path='/admin' element={<Admin />}/>
         <Route path='/login/:admin' element={<Login/>}/>
