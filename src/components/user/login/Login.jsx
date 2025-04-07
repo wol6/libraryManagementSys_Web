@@ -7,18 +7,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Footer from '../../layouts/Footer';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-
+import Checkbox from '@mui/material/Checkbox';
 
 
 function Login() {
-    const { admin } = useParams()
     const navigate = useNavigate()
 
     const [open, setOpen] = useState(false);
-    const [userLogin,setUserLogin] = useState({
+    const [userLogin, setUserLogin] = useState({
         userName: "",
         password: "",
+        admin:false
     })
+    console.log(userLogin)
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -31,19 +32,27 @@ function Login() {
             return { ...prev, [name]: value };
         });
     }
+
+    function toggelAdmin(e){
+        console.log(e.target.value)
+        setUserLogin(prev=>{
+            return{...prev,admin:!prev.admin}
+        })
+    }
+
     async function handleSignIp(params) {
-        try{
-            if(!admin){
-                const {data:resp} = await axios.post('http://localhost:5000/signin',userLogin)
-            if(resp.success){
-                toast('Logged in')
-                navigate('/')
-            }else{
-                toast('Invalid Credential')
+        try {
+            if (!userLogin.admin) {
+                const { data: resp } = await axios.post('http://localhost:5000/signin', userLogin)
+                if (resp.success) {
+                    toast('Logged in')
+                    navigate('/')
+                } else {
+                    toast('Invalid Credential')
+                }
+
             }
-            
-            }
-        }catch(e){
+        } catch (e) {
             console.log(e)
         }
     }
@@ -51,14 +60,20 @@ function Login() {
         <>
             <div className='md:flex items-center md:mt-10 text-cyan-800'>
                 <div className=' md:ml-75'>
-                    <p className='text-2xl text-center'>Login Here{admin && `(Admin)`}</p>
+                    <p className='text-2xl text-center'>Login Here{userLogin.admin&&`(Admin)`}</p>
                     <div className='flex flex-col p-5 w-100%'>
+                        <h1>{userLogin.admin}</h1>
                         <TextField onChange={handleChange} name='userName'
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="User Name" variant="standard" />
                         <TextField onChange={handleChange} name='password' type='password'
                             className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />
+                        <div className='flex items-center'>
+                            <Checkbox name="admin" checked={userLogin.admin} onChange={toggelAdmin}/>
+                            {/* <input type="checkbox" name="admin" value={userLogin.admin} onChange={toggelAdmin} /> */}
+                            Admin
+                        </div>
                         <Button onClick={handleSignIp}
-                         style={{ backgroundColor: '#155e75' }} variant="contained">Login</Button>
+                            style={{ backgroundColor: '#155e75' }} variant="contained">Login</Button>
                     </div>
                 </div>
                 <div className='flex justify-center pt-2'>
