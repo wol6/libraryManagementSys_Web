@@ -4,7 +4,7 @@ import { BookOpen, Users, ClipboardList, Activity } from 'lucide-react';
 function Dashboard() {
     return (
         <>
-        <div className='mt-10'>
+        <div className='mt-0'>
         <h1 className='text-2xl ml-55'>Dashboard Overview</h1>
             <div className='w-[600px] mt-4 ml-50'>
                 <div className='flex justify-around'>
