@@ -1,5 +1,6 @@
 import React from 'react'
 import { ShieldUser,LogOut } from "lucide-react";
+import { NavLink } from 'react-router-dom';
 
 function Headers() {
   return (
@@ -11,9 +12,9 @@ function Headers() {
       </div>
       <div>
       <nav className="flex gap-6 text-base">
-        <a href="/dashboard" className="hover:underline">Dashboard</a>
-        <a href="/books" className="hover:underline">Books</a>
-        <a href="/members" className="hover:underline">Members</a>
+        <NavLink to='/admin/dashboard' className="hover:underline">Dashboard</NavLink>
+        <NavLink to='/admin/books' className="hover:underline">Books</NavLink>
+        <NavLink to='/admin/members' className="hover:underline">Members</NavLink>
       </nav>
       </div>
       <div>
