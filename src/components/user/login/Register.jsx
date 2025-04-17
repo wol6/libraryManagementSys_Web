@@ -9,7 +9,7 @@ import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
-
+import Checkbox from '@mui/material/Checkbox';
 
 function Register({ open, onClose }) {
     const [userObj, setUserObj] = useState({
@@ -18,8 +18,14 @@ function Register({ open, onClose }) {
         emailId: "",
         password: "",
         confirmPassword: "",
+        admin:false
     })
 
+    function toggelAdmin(e){
+        setUserObj(prev=>{
+            return{...prev,admin:!prev.admin}
+        })
+    }
     // Handle input field changes and update state
     function handleChange(e) {
         const { name, value } = e.target;
@@ -27,8 +33,8 @@ function Register({ open, onClose }) {
             return { ...prev, [name]: value };
         });
     }
-  async  function handleSignUp(userDta) {
-        const {data:resp} = await axios.post('http://localhost:5000/signup', { userObj })
+    async function handleSignUp(userDta) {
+        const { data: resp } = await axios.post('http://localhost:5000/signup', { userObj })
         console.log(resp)
         if (resp) {
             console.log(resp.success)
@@ -58,6 +64,10 @@ function Register({ open, onClose }) {
                             className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Confirm Password" variant="standard" />
                         {/* <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="Mobile no" variant="standard" /> */}
                         {/* <Button variant="contained">Register</Button> */}
+                        <div className='flex items-center' title="Check the box for admin privileges">
+                            <Checkbox name="admin" checked={userObj.admin} onChange={toggelAdmin} />
+                            Admin
+                        </div>
                     </div>
                 </DialogContent>
                 <DialogActions className='mr-7 mb-2'>

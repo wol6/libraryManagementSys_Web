@@ -11,7 +11,7 @@ function Navigation() {
         <NavLink to='/login'>Login</NavLink>
         <NavLink to='/admin'>Admin</NavLink>
       </nav> */}
-      <NavLink>
+      <NavLink to='/'>
       <img src={logo} className='w-9' alt="logo" />
       </NavLink>
       <nav>
