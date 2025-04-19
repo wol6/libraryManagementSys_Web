@@ -8,6 +8,7 @@ import Footer from '../../layouts/Footer';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import Checkbox from '@mui/material/Checkbox';
+import Ax from '../../api/axiosinstance';
 
 
 function Login() {
@@ -41,10 +42,12 @@ function Login() {
     async function handleSignIp(params) {
         try {
 
-            const { data: resp } = await axios.post('http://localhost:5000/signin', userLogin)
+            const { data: resp } = await axios.post('http://localhost:5000/api/signin', userLogin)
+            console.log(resp)
             if (resp.success) {
                 toast('Logged in')
-                navigate('/')
+                localStorage.setItem('token',resp.token)
+                navigate('/admin/dashboard')
             } else {
                 toast('Invalid Credential')
             }
