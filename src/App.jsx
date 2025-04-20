@@ -7,6 +7,7 @@ import Navigation from './components/layouts/Navigation'
 import BookTable from './components/admin/Book/BookTable'
 import UserTable from './components/admin/User/UserTable'
 import About from './components/about/About'
+import UserDashboard from './components/user/dashboard/UserDashboard'
 
 function App() {
   const location = useLocation()
@@ -24,6 +25,7 @@ function App() {
 
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/dashboard' element={<UserDashboard/>}/>
         <Route path='/about' element={<About/>}/>
       </Routes>
 </div>

@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
-import Ax from '../../api/axiosinstance';
+import Ax from '../../lib/axiosinstance';
 
 function Register({ open, onClose }) {
     const [userObj, setUserObj] = useState({

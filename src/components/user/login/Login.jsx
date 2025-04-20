@@ -8,7 +8,7 @@ import Footer from '../../layouts/Footer';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import Checkbox from '@mui/material/Checkbox';
-import Ax from '../../api/axiosinstance';
+import Ax from '../../lib/axiosinstance';
 
 
 function Login() {
@@ -45,8 +45,10 @@ function Login() {
             const { data: resp } = await Ax.post('/signin', userLogin)
             if (resp.success) {
                 toast('Logged in')
-                localStorage.setItem('token',resp.token)
-                navigate('/admin/dashboard')
+                localStorage.setItem('token', resp.token)
+                localStorage.setItem('isAdmin', resp.isAdmin)
+                const redirectTo = resp.isAdmin ? '/admin/dashboard' : '/dashboard'
+                navigate(redirectTo)
             } else {
                 toast('Invalid Credential')
             }

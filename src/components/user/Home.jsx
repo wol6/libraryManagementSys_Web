@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import bookImg from '../../assets/book_test.jpg'
 import axios from 'axios'
-import Ax from '../api/axiosinstance'
+import Ax from '../lib/axiosinstance'
 
-// const books = [
-//   {
-//     id: 1,
-//     title: 'The Richest Man in Babylon',
-//     author: 'George S. Clason',
-//     image: bookImg,
-//   },
-//   {
-//     id: 2,
-//     title: 'The Richest Man in Babylon',
-//     author: 'George S. Clason',
-//     image: 'https://m.media-amazon.com/images/I/71HX66uNvfL._SY342_.jpg',
-//   },
-// ];
 
 function Home() {
   const [books, setBooks] = useState([])
@@ -36,7 +22,7 @@ function Home() {
   }, [])
   return (
     <>
-      <h1 className='text-center text-2xl'>Library</h1>
+      {/* <h1 className='text-center text-2xl'>Library</h1> */}
       <div className='flex flex-wrap'>
         {books.map((book) => {
           return (
