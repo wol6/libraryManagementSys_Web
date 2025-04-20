@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import bookImg from '../../assets/book_test.jpg'
 import axios from 'axios'
+import Ax from '../api/axiosinstance'
 
 // const books = [
 //   {
@@ -22,8 +23,7 @@ function Home() {
 
   async function getAllBooks() {
     try {
-      const { data: resp } = await axios.get('http://localhost:5000/getbook')
-      console.log(resp)
+      const { data: resp } = await Ax.get('/getbook')
       if (resp.success) {
         setBooks(resp.books)
       }
