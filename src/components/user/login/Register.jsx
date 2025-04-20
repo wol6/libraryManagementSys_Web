@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
+import Ax from '../../api/axiosinstance';
 
 function Register({ open, onClose }) {
     const [userObj, setUserObj] = useState({
@@ -34,8 +35,7 @@ function Register({ open, onClose }) {
         });
     }
     async function handleSignUp(userDta) {
-        const { data: resp } = await axios.post('http://localhost:5000/signup', { userObj })
-        console.log(resp)
+        const { data: resp } = await Ax.post('/signup', { userObj })
         if (resp) {
             console.log(resp.success)
         }
