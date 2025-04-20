@@ -1,9 +1,10 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import logo from '../../assets/logo.png'
 
 function Navigation() {
+  const location = useLocation()
   return (
     <div className='border-2 flex justify-around m-4 p-4 text-cyan-800'>
       {/* <nav>
@@ -17,7 +18,7 @@ function Navigation() {
       <nav>
       <div className='w-60 flex justify-around text-cyan-800'>
       <NavLink to='/'>Library</NavLink>
-      <NavLink to="/">About</NavLink>
+      <NavLink to="/about">About</NavLink>
       </div>
       </nav>
       <div className='border-1 w-96 mr-40 flex justify-between rounded-md text-cyan-800'>
@@ -25,7 +26,7 @@ function Navigation() {
         <button className='m-1 cursor-pointer'>search</button>
       </div>
       <nav className='text-cyan-800'>
-        <NavLink to='/login'>Login</NavLink>
+        {location.pathname!=='/login' && <NavLink to='/login'>Login</NavLink>}
       </nav>
     </div>
   )
