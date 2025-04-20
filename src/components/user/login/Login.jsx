@@ -42,7 +42,7 @@ function Login() {
     async function handleSignIp(params) {
         try {
 
-            const { data: resp } = await axios.post('http://localhost:5000/api/signin', userLogin)
+            const { data: resp } = await Ax.post('/signin', userLogin)
             if (resp.success) {
                 toast('Logged in')
                 localStorage.setItem('token',resp.token)
