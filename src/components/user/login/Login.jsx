@@ -47,6 +47,7 @@ function Login() {
                 toast('Logged in')
                 localStorage.setItem('token', resp.token)
                 localStorage.setItem('isAdmin', resp.isAdmin)
+                localStorage.setItem('isUser', resp.isUser)
                 const redirectTo = resp.isAdmin ? '/admin/dashboard' : '/dashboard'
                 navigate(redirectTo)
             } else {
