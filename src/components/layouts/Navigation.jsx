@@ -3,13 +3,11 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { LogOut } from "lucide-react";
 
 import logo from '../../assets/logo.png'
-import { isAdmin, isUser } from '../lib/Helper';
 
-function Navigation() {
+function Navigation({isUser}) {
   const navigate = useNavigate()
   const location = useLocation()
-  const path = ['/login','/dashboard']
- const hideLoginBtn = location.pathname.includes(path)
+ const hideLoginBtn = location.pathname == '/login' || location.pathname == '/dashboard'
  
  async function handleLogout() {
   try{
@@ -41,7 +39,7 @@ function Navigation() {
         <button className='m-1 cursor-pointer'>search</button>
       </div>
       <nav className='text-cyan-800'>
-        {hideLoginBtn && <NavLink to='/login'>Login</NavLink>}
+        {!hideLoginBtn && <NavLink to='/login'>Login</NavLink>}
        {isUser && <button onClick={handleLogout}
         className="px-3 py-1 rounded flex items-center gap-1 text-sm hover:cursor-pointer">
           <LogOut size={16} />

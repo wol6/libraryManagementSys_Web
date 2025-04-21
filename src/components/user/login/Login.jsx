@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import loginImg from '../../../assets/login2.png'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -20,6 +20,9 @@ function Login() {
         password: "",
         admin: false
     })
+    useEffect(()=>{
+        
+    },[])
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -48,6 +51,7 @@ function Login() {
                 localStorage.setItem('token', resp.token)
                 localStorage.setItem('isAdmin', resp.isAdmin)
                 localStorage.setItem('isUser', resp.isUser)
+                localStorage.setItem('name', resp.name)
                 const redirectTo = resp.isAdmin ? '/admin/dashboard' : '/dashboard'
                 navigate(redirectTo)
             } else {

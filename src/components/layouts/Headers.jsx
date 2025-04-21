@@ -1,7 +1,6 @@
 import React from 'react'
 import { ShieldUser,LogOut } from "lucide-react";
 import { NavLink, useNavigate } from 'react-router-dom';
-import { isAdmin } from '../lib/Helper';
 
 function Headers() {
   const navigate = useNavigate()
