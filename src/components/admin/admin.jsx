@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Login from '../user/login/Login';
 import { NavLink } from 'react-router-dom';
 import { Button } from '@mui/material';
@@ -9,19 +9,25 @@ import Headers from '../layouts/Headers';
 function Admin() {
   const [open, setOpen] = useState(false);
   const [library, setLibrary] = useState(false);
+
+  const [isAdmin,setIsAdmin] = useState(false)
+
   const handleClickOpen = (validate) => {
     validate == 1 ? setLibrary(true) : setOpen(true);
   };
   const handleClose = (validate) => {
     validate == 1 ? setLibrary(false) : setOpen(false);
   };
+      useEffect(()=>{
+        setIsAdmin(localStorage.getItem('isAdmin'))
+      },[])
   return (
     <>
       {/* <div>
         <NavLink to='/login/admin'>Admin Login</NavLink>
       </div>
        */}
-      <Headers />
+      <Headers isAdmin={isAdmin} />
       <div className='flex'>
         <Dashboard />
         <div className='border-2 ml-6 h-60 mt-28'></div>

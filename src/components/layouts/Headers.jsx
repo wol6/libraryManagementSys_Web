@@ -2,9 +2,10 @@ import React from 'react'
 import { ShieldUser,LogOut } from "lucide-react";
 import { NavLink, useNavigate } from 'react-router-dom';
 
-function Headers() {
+function Headers({isAdmin}) {
   const navigate = useNavigate()
   const dashboardTo = isAdmin ? '/admin/dashboard' : '/dashboard'
+  const name = localStorage.getItem('name')
 
   async function handleLogout() {
     try{
@@ -20,13 +21,13 @@ function Headers() {
     <div className='border-2 flex justify-between m-4 p-4 text-cyan-800'>
       <div className='flex items-center'>
       <ShieldUser />
-        <p>user name</p>
+        <p className='pl-1'>{name}</p>
       </div>
       <div>
       <nav className="flex gap-6 text-base">
         <NavLink to={dashboardTo} className="hover:cursor-pointer">Dashboard</NavLink>
-       {!isAdmin && <NavLink to='/admin/books' className="hover:cursor-pointer">Books</NavLink>}
-       {!isAdmin &&<NavLink to='/admin/members' className="hover:cursor-pointer">Members</NavLink>}
+         <NavLink to='/admin/books' className="hover:cursor-pointer">Books</NavLink>
+        <NavLink to='/admin/members' className="hover:cursor-pointer">Members</NavLink>
         <NavLink to="/about">About</NavLink>
       </nav>
       </div>

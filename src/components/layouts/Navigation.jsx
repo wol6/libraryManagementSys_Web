@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { LogOut } from "lucide-react";
+import { ShieldUser,LogOut } from "lucide-react";
 
 import logo from '../../assets/logo.png'
 
@@ -8,7 +8,7 @@ function Navigation({isUser}) {
   const navigate = useNavigate()
   const location = useLocation()
  const hideLoginBtn = location.pathname == '/login' || location.pathname == '/dashboard'
- 
+ const name = localStorage.getItem('name')
  async function handleLogout() {
   try{
     localStorage.clear()
@@ -38,6 +38,10 @@ function Navigation({isUser}) {
         <input type="text" className='flex-1 outline-none pl-2 ' placeholder='search' />
         <button className='m-1 cursor-pointer'>search</button>
       </div>
+      {isUser && <div className='flex items-center'>
+      <ShieldUser />
+        <p className='pl-2'>{name} </p>
+      </div>}
       <nav className='text-cyan-800'>
         {!hideLoginBtn && <NavLink to='/login'>Login</NavLink>}
        {isUser && <button onClick={handleLogout}
