@@ -9,11 +9,12 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import Checkbox from '@mui/material/Checkbox';
 import Ax from '../../lib/axiosinstance';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function Login() {
     const navigate = useNavigate()
-
+const [loader,setLoader] = useState(false)
     const [open, setOpen] = useState(false);
     const [userLogin, setUserLogin] = useState({
         userName: "",
@@ -26,8 +27,10 @@ function Login() {
     const handleClickOpen = () => {
         setOpen(true);
     };
-    const handleClose = () => {
+    const handleClose = (msg) => {
+        console.log(msg,'ll')
         setOpen(false);
+       if(msg) toast(msg)
     };
     function handleChange(e) {
         const { name, value } = e.target;
@@ -43,6 +46,7 @@ function Login() {
     }
 
     async function handleSignIp(params) {
+        setLoader(true)
         try {
 
             const { data: resp } = await Ax.post('/signin', userLogin)
@@ -61,6 +65,8 @@ function Login() {
 
         } catch (e) {
             console.log(e)
+        }finally{
+            setLoader(false)
         }
     }
     return (
@@ -79,7 +85,7 @@ function Login() {
                             Admin
                         </div>
                         <Button onClick={handleSignIp}
-                            style={{ backgroundColor: '#155e75' }} variant="contained">Login</Button>
+                            style={{ backgroundColor: '#155e75' }} variant="contained">{loader  ? <CircularProgress color="inherit" size={26} />:'Login'} </Button>
                     </div>
                 </div>
                 <div className='flex justify-center pt-2'>

@@ -11,20 +11,23 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
 import Ax from '../../lib/axiosinstance';
+import { toast, ToastContainer } from 'react-toastify';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Register({ open, onClose }) {
+    const [loader, setLoader] = useState(false)
     const [userObj, setUserObj] = useState({
         userName: "",
         fullName: "",
         emailId: "",
         password: "",
         confirmPassword: "",
-        admin:false
+        admin: false
     })
 
-    function toggelAdmin(e){
-        setUserObj(prev=>{
-            return{...prev,admin:!prev.admin}
+    function toggelAdmin(e) {
+        setUserObj(prev => {
+            return { ...prev, admin: !prev.admin }
         })
     }
     // Handle input field changes and update state
@@ -35,9 +38,19 @@ function Register({ open, onClose }) {
         });
     }
     async function handleSignUp(userDta) {
-        const { data: resp } = await Ax.post('/signup', { userObj })
-        if (resp) {
-            console.log(resp.success)
+        setLoader(true)
+        try {
+            const { data: resp } = await Ax.post('/signup', { userObj })
+            if (resp.success) {
+                toast(resp.msg)
+                onClose(resp.msg)
+            } else {
+                toast(resp.msg)
+            }
+        } catch (e) {
+            console.log(e)
+        }finally{
+        setLoader(false)
         }
     }
     return (
@@ -72,8 +85,10 @@ function Register({ open, onClose }) {
                 </DialogContent>
                 <DialogActions className='mr-7 mb-2'>
                     <Button style={{ color: '#155e75' }} onClick={onClose}>Cancel</Button>
-                    <Button style={{ backgroundColor: '#155e75' }} variant="contained" onClick={handleSignUp}>Register</Button>
+                    <Button style={{ backgroundColor: '#155e75' }} variant="contained" onClick={handleSignUp}>
+                        {loader ? <CircularProgress color="inherit" size={26} /> : 'Register'}</Button>
                 </DialogActions>
+                <ToastContainer />
             </Dialog>
 
         </>

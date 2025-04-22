@@ -23,9 +23,10 @@ Ax.interceptors.response.use((response) => {
     return response
 },
     (error) => {
+        console.log(error)
         const { response } = error;
         console.log('Unauthorized! Redirecting to login...', response);
-        window.location.href = '/login';
+        // window.location.href = '/login';
         return Promise.reject(error);
     }
 )
