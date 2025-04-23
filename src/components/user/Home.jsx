@@ -4,16 +4,21 @@ import axios from 'axios'
 import Ax from '../lib/axiosinstance'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAllBooks } from '../redux/bookSlice'
-import { toast,ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 
 function Home() {
   const dispatch = useDispatch()
+  const [page, setPage] = useState(0)
   const { allBooks, searchResults } = useSelector(state => state.books)
   // const [books, setBooks] = useState([])
 
   async function getAllBooks() {
     try {
-      const { data: resp } = await Ax.get('/getbook')
+      const { data: resp } = await Ax.get('/getbook', {
+        params: {
+          page
+        }
+      })
       if (resp.success) {
         // setBooks(resp.books)
         dispatch(setAllBooks(resp.books))
@@ -24,7 +29,7 @@ function Home() {
   }
   useEffect(() => {
     getAllBooks()
-  }, [])
+  }, [page])
 
   const booksToShow = searchResults.length > 0 ? searchResults : allBooks
   return (
@@ -42,7 +47,23 @@ function Home() {
           )
         })}
       </div>
-      <ToastContainer/>
+      <div className="flex justify-center gap-4 mt-4">
+  <button 
+    className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
+    onClick={() => setPage(p => p - 1)} 
+    disabled={page === 0}
+  >
+    Previous
+  </button>
+  <button 
+    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+    onClick={() => setPage(p => p + 1)}
+  >
+    Next
+  </button>
+</div>
+
+      <ToastContainer />
     </>
   )
 }
