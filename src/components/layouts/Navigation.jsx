@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ShieldUser,LogOut } from "lucide-react";
 
 import logo from '../../assets/logo.png'
+import Search from '../lib/Search';
 
 function Navigation({isUser}) {
   const navigate = useNavigate()
@@ -34,10 +35,7 @@ function Navigation({isUser}) {
       <NavLink to="/about">About</NavLink>
       </div>
       </nav>
-      <div className='border-1 w-96 mr-40 flex justify-between rounded-md text-cyan-800'>
-        <input type="text" className='flex-1 outline-none pl-2 ' placeholder='search' />
-        <button className='m-1 cursor-pointer'>search</button>
-      </div>
+<Search/>
       {isUser && <div className='flex items-center'>
       <ShieldUser />
         <p className='pl-2'>{name} </p>
