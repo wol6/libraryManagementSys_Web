@@ -16,7 +16,8 @@ function Home() {
     try {
       const { data: resp } = await Ax.get('/getbook', {
         params: {
-          page
+          page,
+          limit:5
         }
       })
       if (resp.success) {
