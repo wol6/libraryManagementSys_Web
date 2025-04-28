@@ -56,6 +56,7 @@ const [loader,setLoader] = useState(false)
                 localStorage.setItem('isAdmin', resp.isAdmin)
                 localStorage.setItem('isUser', resp.isUser)
                 localStorage.setItem('name', resp.name)
+                localStorage.setItem('userId', resp.userId)
                 const redirectTo = resp.isAdmin ? '/admin/dashboard' : '/dashboard'
                 navigate(redirectTo)
             } else {

@@ -5,6 +5,7 @@ import Ax from '../lib/axiosinstance'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAllBooks } from '../redux/bookSlice'
 import { toast, ToastContainer } from 'react-toastify'
+import Button from '@mui/material/Button';
 
 function Home() {
   const dispatch = useDispatch()
@@ -32,6 +33,23 @@ function Home() {
     getAllBooks()
   }, [page])
 
+  async function handleBook(bookId) {
+    const userId = localStorage.getItem('userId')
+    console.log(trnsType)
+    if(!userId){
+      toast(`Login to Borrow Book`)
+    }else{
+      try{
+        
+      }catch(e){
+        console.log(e)
+        const {resp:data} = Ax.post('/mylibrary',{
+          userId,bookId,
+        })
+      }
+    }
+  }
+
   const booksToShow = searchResults.length > 0 ? searchResults : allBooks
   return (
     <>
@@ -43,7 +61,9 @@ function Home() {
               <img src={book.imgurl} alt="" />
               <p className='text-center'>{book.bookname}</p>
               <p className='text-center'>{book.author}</p>
-              <button className='hover:cursor-pointer'>Borrow</button>
+                  <Button style={{ color: '#155e75' }} variant="text" onClick={()=>handleBook(book._id)}>
+                  {book.availabilityStatus? 'Borrow' : 'Not Available'}
+                </Button>
             </div>
           )
         })}
