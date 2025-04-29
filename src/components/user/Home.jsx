@@ -35,17 +35,15 @@ function Home() {
 
   async function handleBook(bookId) {
     const userId = localStorage.getItem('userId')
-    console.log(trnsType)
     if(!userId){
       toast(`Login to Borrow Book`)
     }else{
       try{
-        
-      }catch(e){
-        console.log(e)
         const {resp:data} = Ax.post('/mylibrary',{
           userId,bookId,
         })
+      }catch(e){
+        console.log(e)
       }
     }
   }
