@@ -7,10 +7,13 @@ import { setAllBooks } from '../redux/bookSlice'
 import { toast, ToastContainer } from 'react-toastify'
 import Button from '@mui/material/Button';
 
+const userId = localStorage.getItem('userId')
+
 function Home() {
   const dispatch = useDispatch()
   const [page, setPage] = useState(0)
   const { allBooks, searchResults } = useSelector(state => state.books)
+  const [mylibrary, setMylibrary] = useState([])
   // const [books, setBooks] = useState([])
 
   async function getAllBooks() {
@@ -18,7 +21,7 @@ function Home() {
       const { data: resp } = await Ax.get('/getbook', {
         params: {
           page,
-          limit:5
+          limit: 5
         }
       })
       if (resp.success) {
@@ -29,24 +32,39 @@ function Home() {
       console.log(e)
     }
   }
-  useEffect(() => {
-    getAllBooks()
-  }, [page])
-
+  async function getMyLibrary() {
+    try {
+      const { data: resp } = await Ax.post('/mylibrary', {
+        userId
+      })
+      console.log(resp, 'lib')
+      if (resp.success) {
+        setMylibrary(resp.mylibrary)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
   async function handleBook(bookId) {
-    const userId = localStorage.getItem('userId')
-    if(!userId){
+    if (!userId) {
       toast(`Login to Borrow Book`)
-    }else{
-      try{
-        const {resp:data} = Ax.post('/mylibrary',{
-          userId,bookId,
+    } else {
+      try {
+        const { resp: data } = await Ax.post('/updatelibrary', {
+          userId, bookId,
         })
-      }catch(e){
+      } catch (e) {
         console.log(e)
       }
     }
   }
+
+  useEffect(() => {
+    getAllBooks()
+    getMyLibrary()
+  }, [page])
+
+
 
   const booksToShow = searchResults.length > 0 ? searchResults : allBooks
   return (
@@ -59,28 +77,36 @@ function Home() {
               <img src={book.imgurl} alt="" />
               <p className='text-center'>{book.bookname}</p>
               <p className='text-center'>{book.author}</p>
-                  <Button style={{ color: '#155e75' }} variant="text" onClick={()=>handleBook(book._id)}>
-                  {book.availabilityStatus? 'Borrow' : 'Not Available'}
-                </Button>
+              <Button style={{ color: '#155e75' }} variant="text" disabled={!book.availabilityStatus} onClick={() => handleBook(book._id)}>
+                {(() => {
+                  const entry = mylibrary.find(mylib => mylib.bookdetails === book._id);
+                  if (entry) {
+                    if (entry.isapproved) return 'Borrowed';
+                    else return 'Requested';
+                  } else {
+                    return book.availabilityStatus ? 'Borrow' : 'Not Available';
+                  }
+                })()}
+              </Button>
             </div>
           )
         })}
       </div>
       <div className="flex justify-center gap-4 mt-4">
-  <button 
-    className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
-    onClick={() => setPage(p => p - 1)} 
-    disabled={page === 0}
-  >
-    Previous
-  </button>
-  <button 
-    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-    onClick={() => setPage(p => p + 1)}
-  >
-    Next
-  </button>
-</div>
+        <button
+          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
+          onClick={() => setPage(p => p - 1)}
+          disabled={page === 0}
+        >
+          Previous
+        </button>
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={() => setPage(p => p + 1)}
+        >
+          Next
+        </button>
+      </div>
 
       <ToastContainer />
     </>
