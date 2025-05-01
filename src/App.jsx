@@ -8,6 +8,7 @@ import BookTable from './components/admin/Book/BookTable'
 import UserTable from './components/admin/User/UserTable'
 import About from './components/about/About'
 import UserDashboard from './components/user/dashboard/UserDashboard'
+import RequestTable from './components/admin/Book/RequestTable'
 
 function App() {
   const location = useLocation()
@@ -19,6 +20,7 @@ function App() {
 {showNavBar&&<Navigation/>}
       <Routes>
         <Route path='/admin/dashboard' element={<Admin />}/>
+        <Route path='/admin/requests' element={<RequestTable/>}/>
         <Route path='/admin/books' element={<BookTable />}/>
         <Route path='/admin/members' element={<UserTable />}/>
         <Route path='/login/:admin' element={<Login/>}/>
