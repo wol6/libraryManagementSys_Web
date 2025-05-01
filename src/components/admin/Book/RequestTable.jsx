@@ -1,8 +1,105 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Headers from '../../layouts/Headers'
+import { DataGrid } from '@mui/x-data-grid';
+import Paper from '@mui/material/Paper';
+import Ax from '../../lib/axiosinstance';
+import Button from '@mui/material/Button';
+
+const paginationModel = { page: 0, pageSize: 5 };
 
 function RequestTable() {
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [rows, setRows] = useState([])
+
+  const columns = [
+    // { field: '_id', headerName: 'ID', width: 70 },
+    { field: 'fullname', headerName: 'Name', width: 130 },
+    { field: 'username', headerName: 'User Name', width: 130 },
+    { field: 'bookname', headerName: 'Book Name', width: 130 },
+    // { field: 'availabilityStatus', headerName: 'Availability Status', width: 130 },
+    {
+      field: 'actions',
+      headerName: 'Approve',
+      width: 185,
+      sortable: false,
+      renderCell: (params) => (
+        <div>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            onClick={() => handleEdit(params.row)}
+            style={{ marginRight: 8 }}
+          >
+            Approve
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            onClick={() => handleDelete(params.row._id)}
+          >
+            Decline
+          </Button>
+        </div>
+      ),
+    }
+
+  ];
+
+  useEffect(() => {
+    handleRequests()
+    setIsAdmin(localStorage.getItem('isAdmin'))
+  }, [])
+
+
+  async function handleEdit(row) {
+    console.log(row)
+  }
+
+  async function handleDelete(id) {
+    const confirmed = window.confirm('Are you sure you want to delete this item?');
+    if (confirmed) {
+      setRows(prevRows => prevRows.filter(row => row._id !== id));
+    }
+  }
+
+  async function handleRequests() {
+    try {
+      const { data: resp } = await Ax.get('/requests')
+      if (resp.success) {
+        const requestList = resp.allRequest.map((elm) => {
+          return {
+            id:elm._id,
+            fullname: elm.userdetails.fullname,
+            username: elm.userdetails.username,
+            bookname: elm.bookdetails.bookname,
+          }
+        })
+        setRows(requestList)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
-    <div>RequestTable</div>
+    <>
+      <Headers isAdmin={isAdmin} />
+      <div className='ml-75 mt-10'>
+        <Paper sx={{ height: 400, width: '65%' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => row.id}
+            initialState={{ pagination: { paginationModel } }}
+            pageSizeOptions={[5, 10]}
+            // checkboxSelection
+            sx={{ border: 0 }}
+          />
+        </Paper>
+      </div>
+    </>
   )
 }
 
