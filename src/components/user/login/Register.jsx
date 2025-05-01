@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,7 +14,7 @@ import Ax from '../../lib/axiosinstance';
 import { toast, ToastContainer } from 'react-toastify';
 import CircularProgress from '@mui/material/CircularProgress';
 
-function Register({ open, onClose }) {
+function Register({ open, onClose, onEdit }) {
     const [loader, setLoader] = useState(false)
     const [userObj, setUserObj] = useState({
         userName: "",
@@ -49,10 +49,14 @@ function Register({ open, onClose }) {
             }
         } catch (e) {
             console.log(e)
-        }finally{
-        setLoader(false)
+        } finally {
+            setLoader(false)
         }
     }
+    useEffect(() => {
+        if (onEdit) setUserObj(onEdit)
+            console.log(onEdit)
+    }, [onEdit])
     return (
         <>
             <Dialog
@@ -65,11 +69,11 @@ function Register({ open, onClose }) {
                 <DialogTitle className='text-center text-cyan-800'>{"Register"}</DialogTitle>
                 <DialogContent>
                     <div className='flex flex-col p-5 w-100%'>
-                        <TextField onChange={handleChange} name='userName' value={userObj.userName}
+                        <TextField onChange={handleChange} name='userName' value={userObj.username}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="User Name" variant="standard" />
-                        <TextField onChange={handleChange} name='fullName' value={userObj.fullName}
+                        <TextField onChange={handleChange} name='fullName' value={userObj.fullname}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Name" variant="standard" />
-                        <TextField onChange={handleChange} name='emailId' value={userObj.emailId}
+                        <TextField onChange={handleChange} name='emailId' value={userObj.email}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Email" variant="standard" />
                         <TextField type='password' onChange={handleChange} name='password' value={userObj.password}
                             className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />

@@ -47,7 +47,6 @@ function AddBook({ open, onClose, onEdit }) {
     useEffect(() => {
         if (onEdit) setBooks(onEdit)
     }, [onEdit])
-    console.log(onEdit, 'onEdit')
     return (
         <>
             <Dialog

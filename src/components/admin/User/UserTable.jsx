@@ -5,12 +5,16 @@ import axios from 'axios';
 import Headers from '../../layouts/Headers';
 import Ax from '../../lib/axiosinstance';
 import Button from '@mui/material/Button';
+import Register from '../../user/login/Register';
+import { ToastContainer, toast } from 'react-toastify';
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 function UserTable() {
     const [rows, setRows] = useState([])
     const [isAdmin, setIsAdmin] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [isedit, setIsedit] = useState({})
 
     const columns = [
         { field: 'username', headerName: 'User Name', width: 130 },
@@ -19,7 +23,7 @@ function UserTable() {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 150,
+            width: 160,
             sortable: false,
             renderCell: (params) => (
                 <div>
@@ -50,6 +54,14 @@ function UserTable() {
         setIsAdmin(localStorage.getItem('isAdmin'))
     }, [])
 
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     async function getAllUsers() {
         try {
             const { data: resp } = await Ax.get('/getusers')
@@ -61,13 +73,14 @@ function UserTable() {
         }
     }
     async function handleEdit(row) {
-        console.log(row)
+        handleOpen()
+        setIsedit(row)
     }
-
     async function handleDelete(id) {
-        const confirmed = window.confirm('Are you sure you want to delete this item?');
-        if (confirmed) {
-            setRows(prevRows => prevRows.filter(row => row._id !== id));
+        const { data: resp } = await Ax.post('/deleteuser', id)
+
+        if (resp.success) {
+            toast('Deleted Successfully')
         }
     }
 
@@ -87,6 +100,9 @@ function UserTable() {
                     />
                 </Paper>
             </div>
+            {open && <Register open={open} onEdit={isedit}
+                onClose={handleClose} />}
+            <ToastContainer />
         </>
     )
 }

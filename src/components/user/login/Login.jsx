@@ -14,23 +14,22 @@ import Box from '@mui/material/Box';
 
 function Login() {
     const navigate = useNavigate()
-const [loader,setLoader] = useState(false)
+    const [loader, setLoader] = useState(false)
     const [open, setOpen] = useState(false);
     const [userLogin, setUserLogin] = useState({
         userName: "",
         password: "",
         admin: false
     })
-    useEffect(()=>{
-        
-    },[])
+    useEffect(() => {
+
+    }, [])
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = (msg) => {
-        console.log(msg,'ll')
         setOpen(false);
-       if(msg) toast(msg)
+        if (msg) toast(msg)
     };
     function handleChange(e) {
         const { name, value } = e.target;
@@ -66,7 +65,7 @@ const [loader,setLoader] = useState(false)
 
         } catch (e) {
             console.log(e)
-        }finally{
+        } finally {
             setLoader(false)
         }
     }
@@ -86,7 +85,7 @@ const [loader,setLoader] = useState(false)
                             Admin
                         </div>
                         <Button onClick={handleSignIp}
-                            style={{ backgroundColor: '#155e75' }} variant="contained">{loader  ? <CircularProgress color="inherit" size={26} />:'Login'} </Button>
+                            style={{ backgroundColor: '#155e75' }} variant="contained">{loader ? <CircularProgress color="inherit" size={26} /> : 'Login'} </Button>
                     </div>
                 </div>
                 <div className='flex justify-center pt-2'>

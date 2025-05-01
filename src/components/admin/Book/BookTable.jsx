@@ -72,7 +72,7 @@ function BookTable() {
     }
 
     async function handleDelete(id) {
-        const { data: resp } = await Ax.get('/deletebook', id)
+        const { data: resp } = await Ax.post('/deletebook', id)
 
         if (resp.success) {
             toast('Deleted Successfully')
