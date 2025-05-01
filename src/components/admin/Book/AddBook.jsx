@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Ax from '../../lib/axiosinstance';
 import CircularProgress from '@mui/material/CircularProgress';
 
-function AddBook({ open, onClose }) {
+function AddBook({ open, onClose, onEdit }) {
     const [loader, setLoader] = useState(false)
     const [books, setBooks] = useState({
         bookname: "",
@@ -30,7 +30,8 @@ function AddBook({ open, onClose }) {
     async function handleAddBook() {
         setLoader(true)
         try {
-            const { data: resp } = await Ax.post('/addbook', books)
+            const url = onEdit ? "/addbook" : "/updatebook"
+            const { data: resp } = await Ax.post(url, books)
             if (resp.success) {
                 toast('Successfully Added')
                 onClose()
@@ -43,6 +44,10 @@ function AddBook({ open, onClose }) {
             setLoader(false)
         }
     }
+    useEffect(() => {
+        if (onEdit) setBooks(onEdit)
+    }, [onEdit])
+    console.log(onEdit, 'onEdit')
     return (
         <>
             <Dialog
@@ -52,21 +57,21 @@ function AddBook({ open, onClose }) {
                 onClose={onClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle className='text-center'>{"Add Books"}</DialogTitle>
+                <DialogTitle className='text-center'>{onEdit ? 'Edit Book' : 'Add Book'}</DialogTitle>
                 <DialogContent>
                     <div className='flex flex-col p-5 w-100%'>
-                        <TextField onChange={handleChange} name='bookname'
+                        <TextField onChange={handleChange} name='bookname' value={books.bookname}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Name" variant="standard" />
-                        <TextField onChange={handleChange} name='author'
+                        <TextField onChange={handleChange} name='author' value={books.author}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Author" variant="standard" />
-                        <TextField onChange={handleChange} name='imgurl'
+                        <TextField onChange={handleChange} name='imgurl' value={books.imgurl}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Img Url" variant="standard" />
                     </div>
                 </DialogContent>
                 <DialogActions className='mr-7 mb-2'>
                     <Button onClick={onClose}>Cancel</Button>
                     <Button variant="contained" onClick={handleAddBook}>
-                        {loader ? <CircularProgress color="inherit" size={26} /> : 'Add'}</Button>
+                        {loader ? <CircularProgress color="inherit" size={26} /> : onEdit ? 'Update' : 'Add'}</Button>
                 </DialogActions>
                 <ToastContainer />
             </Dialog>

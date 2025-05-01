@@ -5,13 +5,17 @@ import axios from 'axios';
 import Ax from '../../lib/axiosinstance';
 import Headers from '../../layouts/Headers';
 import Button from '@mui/material/Button';
+import AddBook from './AddBook';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 function BookTable() {
+    const [open, setOpen] = useState(false);
     const [rows, setRows] = useState([])
     const [isAdmin, setIsAdmin] = useState(false)
+    const [isedit, setIsedit] = useState({})
 
     const columns = [
         // { field: '_id', headerName: 'ID', width: 70 },
@@ -22,7 +26,7 @@ function BookTable() {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 150,
+            width: 160,
             sortable: false,
             renderCell: (params) => (
                 <div>
@@ -55,14 +59,23 @@ function BookTable() {
         setIsAdmin(localStorage.getItem('isAdmin'))
     }, [])
 
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
     async function handleEdit(row) {
-        console.log(row)
+        handleOpen()
+        setIsedit(row)
     }
 
     async function handleDelete(id) {
-        const confirmed = window.confirm('Are you sure you want to delete this item?');
-        if (confirmed) {
-            setRows(prevRows => prevRows.filter(row => row._id !== id));
+        const { data: resp } = await Ax.get('/deletebook', id)
+
+        if (resp.success) {
+            toast('Deleted Successfully')
         }
     }
 
@@ -93,6 +106,9 @@ function BookTable() {
                     />
                 </Paper>
             </div>
+            {open && <AddBook open={open} onEdit={isedit}
+                onClose={handleClose} />}
+            <ToastContainer />
         </>
     )
 }

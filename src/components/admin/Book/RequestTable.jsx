@@ -4,6 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Ax from '../../lib/axiosinstance';
 import Button from '@mui/material/Button';
+import { toast, ToastContainer } from 'react-toastify';
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -28,7 +29,7 @@ function RequestTable() {
             variant="outlined"
             color="primary"
             size="small"
-            onClick={() => handleEdit(params.row)}
+            onClick={() => handleApproveRequest(params.row)}
             style={{ marginRight: 8 }}
           >
             Approve
@@ -52,9 +53,15 @@ function RequestTable() {
     setIsAdmin(localStorage.getItem('isAdmin'))
   }, [])
 
-
-  async function handleEdit(row) {
-    console.log(row)
+  async function handleApproveRequest(row) {
+    try {
+      const { data: resp } = await Ax.post('/approve', { id: row.id })
+      if (resp.success) {
+        toast('Approved Successfully')
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async function handleDelete(id) {
@@ -70,7 +77,7 @@ function RequestTable() {
       if (resp.success) {
         const requestList = resp.allRequest.map((elm) => {
           return {
-            id:elm._id,
+            id: elm._id,
             fullname: elm.userdetails.fullname,
             username: elm.userdetails.username,
             bookname: elm.bookdetails.bookname,
@@ -98,6 +105,7 @@ function RequestTable() {
             sx={{ border: 0 }}
           />
         </Paper>
+        <ToastContainer />
       </div>
     </>
   )
