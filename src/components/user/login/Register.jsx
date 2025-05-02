@@ -37,10 +37,11 @@ function Register({ open, onClose, onEdit }) {
             return { ...prev, [name]: value };
         });
     }
-    async function handleSignUp(userDta) {
+    async function handleSignUp() {
         setLoader(true)
+        const url = onEdit ? '/updateuser' : '/signup'
         try {
-            const { data: resp } = await Ax.post('/signup', { userObj })
+            const { data: resp } = await Ax.post(url, { userObj })
             if (resp.success) {
                 toast(resp.msg)
                 onClose(resp.msg)
@@ -54,8 +55,15 @@ function Register({ open, onClose, onEdit }) {
         }
     }
     useEffect(() => {
-        if (onEdit) setUserObj(onEdit)
-            console.log(onEdit)
+        if (onEdit) {
+            setUserObj(
+                {
+                    userName: onEdit.username || '',
+                    fullName: onEdit.fullname || '',
+                    emailId: onEdit.email || '',
+                }
+            )
+        }
     }, [onEdit])
     return (
         <>
@@ -66,31 +74,31 @@ function Register({ open, onClose, onEdit }) {
                 onClose={onClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle className='text-center text-cyan-800'>{"Register"}</DialogTitle>
+                <DialogTitle className='text-center text-cyan-800'>{onEdit ? "Update User" : "Register"}</DialogTitle>
                 <DialogContent>
                     <div className='flex flex-col p-5 w-100%'>
-                        <TextField onChange={handleChange} name='userName' value={userObj.username}
+                        <TextField onChange={handleChange} name='userName' value={userObj.userName}  disabled ={onEdit}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="User Name" variant="standard" />
-                        <TextField onChange={handleChange} name='fullName' value={userObj.fullname}
+                        <TextField onChange={handleChange} name='fullName' value={userObj.fullName}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Name" variant="standard" />
-                        <TextField onChange={handleChange} name='emailId' value={userObj.email}
+                        <TextField onChange={handleChange} name='emailId' value={userObj.emailId}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Email" variant="standard" />
-                        <TextField type='password' onChange={handleChange} name='password' value={userObj.password}
-                            className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />
-                        <TextField type='password' onChange={handleChange} name='confirmPassword' value={userObj.confirmPassword}
-                            className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Confirm Password" variant="standard" />
+                        {!onEdit && <TextField type='password' onChange={handleChange} name='password' 
+                            className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />}
+                        {!onEdit && <TextField type='password' onChange={handleChange} name='confirmPassword' 
+                            className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Confirm Password" variant="standard" />}
                         {/* <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="Mobile no" variant="standard" /> */}
                         {/* <Button variant="contained">Register</Button> */}
-                        <div className='flex items-center' title="Check the box for admin privileges">
+                        {!onEdit && <div className='flex items-center' title="Check the box for admin privileges">
                             <Checkbox name="admin" checked={userObj.admin} onChange={toggelAdmin} />
                             Admin
-                        </div>
+                        </div>}
                     </div>
                 </DialogContent>
                 <DialogActions className='mr-7 mb-2'>
                     <Button style={{ color: '#155e75' }} onClick={onClose}>Cancel</Button>
                     <Button style={{ backgroundColor: '#155e75' }} variant="contained" onClick={handleSignUp}>
-                        {loader ? <CircularProgress color="inherit" size={26} /> : 'Register'}</Button>
+                        {loader ? <CircularProgress color="inherit" size={26} /> : onEdit ? 'Update' : 'Register'}</Button>
                 </DialogActions>
                 <ToastContainer />
             </Dialog>

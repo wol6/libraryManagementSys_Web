@@ -77,7 +77,9 @@ function UserTable() {
         setIsedit(row)
     }
     async function handleDelete(id) {
-        const { data: resp } = await Ax.post('/deleteuser', id)
+        const { data: resp } = await Ax.delete('/deleteuser', {
+            data: { id }
+        })
 
         if (resp.success) {
             toast('Deleted Successfully')
