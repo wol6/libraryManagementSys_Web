@@ -7,7 +7,6 @@ import { setAllBooks } from '../redux/bookSlice'
 import { toast, ToastContainer } from 'react-toastify'
 import Button from '@mui/material/Button';
 
-const userId = localStorage.getItem('userId')
 
 function Home() {
   const dispatch = useDispatch()
@@ -15,6 +14,7 @@ function Home() {
   const { allBooks, searchResults } = useSelector(state => state.books)
   const [mylibrary, setMylibrary] = useState([])
   // const [books, setBooks] = useState([])
+  const userId = localStorage.getItem('userId')
 
   async function getAllBooks() {
     try {
