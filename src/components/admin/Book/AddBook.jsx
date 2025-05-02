@@ -30,10 +30,10 @@ function AddBook({ open, onClose, onEdit }) {
     async function handleAddBook() {
         setLoader(true)
         try {
-            const url = onEdit ? "/addbook" : "/updatebook"
+            const url = onEdit ? "/updatebook" : "/addbook"
             const { data: resp } = await Ax.post(url, books)
             if (resp.success) {
-                toast('Successfully Added')
+                toast(`Successfully ${onEdit ? 'Updated' : 'Added'}`)
                 onClose()
             } else {
                 toast(resp.msg)
