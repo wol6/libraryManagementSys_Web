@@ -50,9 +50,12 @@ function Home() {
       toast(`Login to Borrow Book`)
     } else {
       try {
-        const { resp: data } = await Ax.post('/updatelibrary', {
+        const { data: resp } = await Ax.post('/updatelibrary', {
           userId, bookId,
         })
+        if (resp.success) {
+          getMyLibrary()
+        }
       } catch (e) {
         console.log(e)
       }

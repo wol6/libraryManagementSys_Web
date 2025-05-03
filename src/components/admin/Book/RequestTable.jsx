@@ -58,6 +58,7 @@ function RequestTable() {
       const { data: resp } = await Ax.post('/approve', { id: row.id })
       if (resp.success) {
         toast('Approved Successfully')
+        handleRequests()
       }
     } catch (e) {
       console.log(e)
@@ -69,6 +70,7 @@ function RequestTable() {
       const { data: resp } = await Ax.post('/decline', { id })
       if (resp.success) {
         toast('Declined Approval')
+        handleRequests()
       }
     } catch (e) {
       console.log(e)
@@ -94,10 +96,39 @@ function RequestTable() {
     }
   }
 
+  async function handleAllReturnReq() {
+    try {
+      const { data: resp } = await Ax.get('/returnreq')
+      console.log(resp)
+      if (resp.success) {
+        const requestList = resp.allRequest.map((elm) => {
+          return {
+            id: elm._id,
+            fullname: elm.userdetails.fullname ?? '',
+            username: elm.userdetails.username ?? '',
+            bookname: elm.bookdetails.bookname ?? '',
+          }
+        })
+        setRows(requestList)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <>
       <Headers isAdmin={isAdmin} />
+
       <div className='ml-75 mt-10'>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAllReturnReq}
+          sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
+        >
+          View Return List
+        </Button>
         <Paper sx={{ height: 400, width: '65%' }}>
           <DataGrid
             rows={rows}

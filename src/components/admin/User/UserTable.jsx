@@ -60,6 +60,7 @@ function UserTable() {
 
     const handleClose = () => {
         setOpen(false);
+        getAllUsers()
     }
 
     async function getAllUsers() {
@@ -83,6 +84,7 @@ function UserTable() {
 
         if (resp.success) {
             toast('Deleted Successfully')
+            getAllUsers()
         }
     }
 

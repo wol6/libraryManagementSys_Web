@@ -65,6 +65,7 @@ function BookTable() {
 
     const handleClose = () => {
         setOpen(false);
+        getAllBooks()
     }
     async function handleEdit(row) {
         handleOpen()
@@ -78,6 +79,7 @@ function BookTable() {
 
         if (resp.success) {
             toast('Deleted Successfully')
+            getAllBooks()
         }
     }
 
