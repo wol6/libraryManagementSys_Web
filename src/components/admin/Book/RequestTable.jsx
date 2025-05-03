@@ -38,7 +38,7 @@ function RequestTable() {
             variant="outlined"
             color="error"
             size="small"
-            onClick={() => handleDelete(params.row._id)}
+            onClick={() => handleDelete(params.row.id)}
           >
             Decline
           </Button>
@@ -65,9 +65,13 @@ function RequestTable() {
   }
 
   async function handleDelete(id) {
-    const confirmed = window.confirm('Are you sure you want to delete this item?');
-    if (confirmed) {
-      setRows(prevRows => prevRows.filter(row => row._id !== id));
+    try {
+      const { data: resp } = await Ax.post('/decline', { id })
+      if (resp.success) {
+        toast('Declined Approval')
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
