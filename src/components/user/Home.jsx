@@ -32,9 +32,9 @@ function Home() {
       console.log(e)
     }
   }
-  async function getMyLibrary() {
+  async function getLibrary() {
     try {
-      const { data: resp } = await Ax.post('/mylibrary', {
+      const { data: resp } = await Ax.post('/library', {
         userId
       })
       if (resp.success) {
@@ -53,7 +53,7 @@ function Home() {
           userId, bookId,
         })
         if (resp.success) {
-          getMyLibrary()
+          getLibrary()
         }
       } catch (e) {
         console.log(e)
@@ -63,7 +63,7 @@ function Home() {
 
   useEffect(() => {
     getAllBooks()
-    getMyLibrary()
+    getLibrary()
   }, [page])
 
 

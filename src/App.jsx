@@ -9,6 +9,7 @@ import UserTable from './components/admin/User/UserTable'
 import About from './components/about/About'
 import UserDashboard from './components/user/dashboard/UserDashboard'
 import RequestTable from './components/admin/Book/RequestTable'
+import MyLibrary from './components/user/dashboard/MyLibrary'
 
 function App() {
   const location = useLocation()
@@ -28,6 +29,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/dashboard' element={<UserDashboard/>}/>
+        <Route path='/mylibrary' element={<MyLibrary/>}/>
         <Route path='/about' element={<About/>}/>
       </Routes>
 </div>
