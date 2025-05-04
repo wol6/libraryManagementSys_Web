@@ -37,7 +37,6 @@ function Home() {
       const { data: resp } = await Ax.post('/mylibrary', {
         userId
       })
-      console.log(resp, 'lib')
       if (resp.success) {
         setMylibrary(resp.mylibrary)
       }

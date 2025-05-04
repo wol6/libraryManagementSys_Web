@@ -11,6 +11,7 @@ const paginationModel = { page: 0, pageSize: 5 };
 function RequestTable() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [rows, setRows] = useState([])
+  const [freezebtn, setFreezebtn] = useState(false)
 
   const columns = [
     // { field: '_id', headerName: 'ID', width: 70 },
@@ -29,6 +30,7 @@ function RequestTable() {
             variant="outlined"
             color="primary"
             size="small"
+            disabled={freezebtn}
             onClick={() => handleApproveRequest(params.row)}
             style={{ marginRight: 8 }}
           >
@@ -38,6 +40,7 @@ function RequestTable() {
             variant="outlined"
             color="error"
             size="small"
+            disabled={freezebtn}
             onClick={() => handleDelete(params.row.id)}
           >
             Decline
@@ -51,6 +54,7 @@ function RequestTable() {
   useEffect(() => {
     handleRequests()
     setIsAdmin(localStorage.getItem('isAdmin'))
+    setFreezebtn(false)
   }, [])
 
   async function handleApproveRequest(row) {
@@ -96,10 +100,10 @@ function RequestTable() {
     }
   }
 
-  async function handleAllReturnReq() {
+  async function handleAllReturnReq(dueDate) {
+    setFreezebtn(true)
     try {
-      const { data: resp } = await Ax.get('/returnreq')
-      console.log(resp)
+      const { data: resp } = await Ax.get('/returnreq',{params:{dueDate}})
       if (resp.success) {
         const requestList = resp.allRequest.map((elm) => {
           return {
@@ -119,27 +123,44 @@ function RequestTable() {
   return (
     <>
       <Headers isAdmin={isAdmin} />
+      <div className='ml-20 mt-10 flex justify-around'>
+        <div>
+          <Paper sx={{ height: 400, width: '100%' }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              getRowId={(row) => row.id}
+              initialState={{ pagination: { paginationModel } }}
+              pageSizeOptions={[5, 10]}
+              // checkboxSelection
+              sx={{ border: 0 }}
+            />
+          </Paper>
+        </div>
 
-      <div className='ml-75 mt-10'>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAllReturnReq}
-          sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
-        >
-          View Return List
-        </Button>
-        <Paper sx={{ height: 400, width: '65%' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            getRowId={(row) => row.id}
-            initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
-            // checkboxSelection
-            sx={{ border: 0 }}
-          />
-        </Paper>
+        <div>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={()=>handleAllReturnReq('')}
+              // sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
+            >
+              View Return List
+            </Button>
+          </div>
+          <div className='mt-2'>
+          <Button
+              variant="contained"
+              color="primary"
+              onClick={()=>handleAllReturnReq('due')}
+              // sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
+            >
+              View Due Date
+            </Button>
+          </div>
+        </div>
+
         <ToastContainer />
       </div>
     </>
