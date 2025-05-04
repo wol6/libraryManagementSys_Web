@@ -43,10 +43,14 @@ function Register({ open, onClose, onEdit }) {
         try {
             const { data: resp } = await Ax.post(url, { userObj })
             if (resp.success) {
-                toast(resp.msg)
+                toast.info(resp.msg, {
+                    position: "top-center"
+                })
                 onClose(resp.msg)
             } else {
-                toast(resp.msg)
+                toast.info(resp.msg, {
+                    position: "top-center"
+                })
             }
         } catch (e) {
             console.log(e)
@@ -77,15 +81,15 @@ function Register({ open, onClose, onEdit }) {
                 <DialogTitle className='text-center text-cyan-800'>{onEdit ? "Update User" : "Register"}</DialogTitle>
                 <DialogContent>
                     <div className='flex flex-col p-5 w-100%'>
-                        <TextField onChange={handleChange} name='userName' value={userObj.userName}  disabled ={onEdit}
+                        <TextField onChange={handleChange} name='userName' value={userObj.userName} disabled={onEdit}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="User Name" variant="standard" />
                         <TextField onChange={handleChange} name='fullName' value={userObj.fullName}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Name" variant="standard" />
                         <TextField onChange={handleChange} name='emailId' value={userObj.emailId}
                             className='md:w-80' sx={{ marginBottom: '1rem' }} label="Email" variant="standard" />
-                        {!onEdit && <TextField type='password' onChange={handleChange} name='password' 
+                        {!onEdit && <TextField type='password' onChange={handleChange} name='password'
                             className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Password" variant="standard" />}
-                        {!onEdit && <TextField type='password' onChange={handleChange} name='confirmPassword' 
+                        {!onEdit && <TextField type='password' onChange={handleChange} name='confirmPassword'
                             className='md:w-80' sx={{ marginBottom: '1.5rem' }} label="Confirm Password" variant="standard" />}
                         {/* <TextField className='md:w-80' sx={{ marginBottom: '1rem' }} label="Mobile no" variant="standard" /> */}
                         {/* <Button variant="contained">Register</Button> */}

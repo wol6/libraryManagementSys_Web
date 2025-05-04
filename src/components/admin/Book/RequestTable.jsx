@@ -61,7 +61,9 @@ function RequestTable() {
     try {
       const { data: resp } = await Ax.post('/approve', { id: row.id })
       if (resp.success) {
-        toast('Approved Successfully')
+        toast.info('Approved Successfully', {
+          position: "top-center"
+        })
         handleRequests()
       }
     } catch (e) {
@@ -73,7 +75,9 @@ function RequestTable() {
     try {
       const { data: resp } = await Ax.post('/decline', { id })
       if (resp.success) {
-        toast('Declined Approval')
+        toast.info('Declined Approval', {
+          position: "top-center"
+        })
         handleRequests()
       }
     } catch (e) {
@@ -103,7 +107,7 @@ function RequestTable() {
   async function handleAllReturnReq(dueDate) {
     setFreezebtn(true)
     try {
-      const { data: resp } = await Ax.get('/returnreq',{params:{dueDate}})
+      const { data: resp } = await Ax.get('/returnreq', { params: { dueDate } })
       if (resp.success) {
         const requestList = resp.allRequest.map((elm) => {
           return {
@@ -143,18 +147,18 @@ function RequestTable() {
             <Button
               variant="contained"
               color="primary"
-              onClick={()=>handleAllReturnReq('')}
-              // sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
+              onClick={() => handleAllReturnReq('')}
+            // sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
             >
               View Return List
             </Button>
           </div>
           <div className='mt-2'>
-          <Button
+            <Button
               variant="contained"
               color="primary"
-              onClick={()=>handleAllReturnReq('due')}
-              // sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
+              onClick={() => handleAllReturnReq('due')}
+            // sx={{ marginLeft: '550px', marginBottom: '5px', textTransform: 'none' }}
             >
               View Due Date
             </Button>

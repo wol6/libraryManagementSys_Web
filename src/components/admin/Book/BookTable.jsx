@@ -78,7 +78,9 @@ function BookTable() {
         })
 
         if (resp.success) {
-            toast('Deleted Successfully')
+            toast.info('Deleted Successfully', {
+                position: "top-center"
+            })
             getAllBooks()
         }
     }

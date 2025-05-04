@@ -29,7 +29,11 @@ function Login() {
     };
     const handleClose = (msg) => {
         setOpen(false);
-        if (msg) toast(msg)
+        if (msg) {
+            toast.info(msg, {
+                position: "top-center"
+            })
+        }
     };
     function handleChange(e) {
         const { name, value } = e.target;
@@ -50,7 +54,9 @@ function Login() {
 
             const { data: resp } = await Ax.post('/signin', userLogin)
             if (resp.success) {
-                toast('Logged in')
+                toast.info('Logged in', {
+                    position: "top-center"
+                })
                 localStorage.setItem('token', resp.token)
                 localStorage.setItem('isAdmin', resp.isAdmin)
                 localStorage.setItem('isUser', resp.isUser)
@@ -59,7 +65,9 @@ function Login() {
                 const redirectTo = resp.isAdmin ? '/admin/dashboard' : '/dashboard'
                 navigate(redirectTo)
             } else {
-                toast('Invalid Credential')
+                toast.info('Invalid Credential', {
+                    position: "top-center"
+                })
             }
 
 

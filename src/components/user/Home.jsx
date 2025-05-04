@@ -21,7 +21,7 @@ function Home() {
       const { data: resp } = await Ax.get('/getbook', {
         params: {
           page,
-          limit: 5
+          limit: 6
         }
       })
       if (resp.success) {
@@ -46,7 +46,9 @@ function Home() {
   }
   async function handleBook(bookId) {
     if (!userId) {
-      toast(`Login to Borrow Book`)
+      toast.info(`Login to Borrow Book`, {
+        position: "top-center"
+      })
     } else {
       try {
         const { data: resp } = await Ax.post('/updatelibrary', {
@@ -72,14 +74,29 @@ function Home() {
   return (
     <>
       {/* <h1 className='text-center text-2xl'>Library</h1> */}
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap mt-10'>
         {booksToShow.map((book) => {
           return (
             <div className='w-40 ml-12 mb-8 flex flex-col items-center' key={book._id}>
               <img src={book.imgurl} alt="" />
               <p className='text-center'>{book.bookname}</p>
               <p className='text-center'>{book.author}</p>
-              <Button style={{ color: '#155e75' }} variant="text" disabled={!book.availabilityStatus} onClick={() => handleBook(book._id)}>
+              <Button
+                style={{
+                  color: (() => {
+                    const entry = mylibrary.find(mylib => mylib.bookdetails === book._id);
+                    if (entry) {
+                      if (entry.isapproved) return '#16a34a'; // Green for 'Borrowed'
+                      else return '#eab308'; // Yellow for 'Requested'
+                    } else {
+                      return book.availabilityStatus ? '#155e75' : '#6b7280'; // Default blue for 'Borrow', grey if not available
+                    }
+                  })(),
+                }}
+                variant="text"
+                disabled={!book.availabilityStatus}
+                onClick={() => handleBook(book._id)}
+              >
                 {(() => {
                   const entry = mylibrary.find(mylib => mylib.bookdetails === book._id);
                   if (entry) {

@@ -33,10 +33,14 @@ function AddBook({ open, onClose, onEdit }) {
             const url = onEdit ? "/updatebook" : "/addbook"
             const { data: resp } = await Ax.post(url, books)
             if (resp.success) {
-                toast(`Successfully ${onEdit ? 'Updated' : 'Added'}`)
+                toast.info(`Successfully ${onEdit ? 'Updated' : 'Added'}`, {
+                    position: "top-center"
+                })
                 onClose()
             } else {
-                toast(resp.msg)
+                toast.info(resp.msg, {
+                    position: "top-center"
+                })
             }
         } catch (e) {
             console.log(e)
